@@ -6,7 +6,7 @@ metadata:
 spec:
   tags:
   - annotations:
-      description: Build and run PHP 5.5 applications, with estra packages
+      description: Build and run PHP 5.5 applications, with extra packages
       iconClass: icon-php
       sampleRepo: https://github.com/openshift/cakephp-ex.git
       supports: php:5.5,php
