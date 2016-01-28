@@ -1,4 +1,4 @@
-FROM openshift/php-56-centos7:latest
+FROM centos/php-56-centos7:latest
 
 USER root
 
