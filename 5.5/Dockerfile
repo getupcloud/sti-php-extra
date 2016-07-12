@@ -16,5 +16,6 @@ RUN chown -R 1001:0 /opt/app-root /tmp/sessions && \
     chmod -R a+rwx /opt/rh/php55/root/etc && \
     chmod -R a+rwx /opt/rh/httpd24/root/var/run/httpd
 
+COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 
 USER 1001
