@@ -2,5 +2,5 @@ extension = "newrelic.so"
 [newrelic]
 newrelic.license = ${NEWRELIC_KEY}
 newrelic.logfile = "/var/log/newrelic/php_agent.log"
-newrelic.appname = "PHP Application"
+newrelic.appname = ${NEWRELIC_APPNAME}
 newrelic.daemon.logfile = "/var/log/newrelic/newrelic-daemon.log"

@@ -21,6 +21,7 @@ export PHPRC=${PHPRC:-/opt/rh/php55/root/etc/php.ini}
 export PHP_INI_SCAN_DIR=${PHP_INI_SCAN_DIR:-/opt/rh/php55/root/etc/php.d}
 
 export NEWRELIC_KEY=${NEWRELIC_KEY:-xxx}
+export NEWRELIC_APPNAME=${NEWRELIC_APPNAME:-PHP APPLICATION}
 
 envsubst < /opt/app-root/etc/php.ini.template > /opt/rh/php55/root/etc/php.ini
 envsubst < /opt/app-root/etc/php.d/opcache.ini.template > /opt/rh/php55/root/etc/php.d/opcache.ini
