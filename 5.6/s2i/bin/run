@@ -23,7 +23,7 @@ export NEWRELIC_APPNAME=${NEWRELIC_APPNAME:-PHP APPLICATION}
 
 envsubst < /opt/app-root/etc/php.ini.template > /etc/opt/rh/rh-php56/php.ini
 envsubst < /opt/app-root/etc/php.d/10-opcache.ini.template > /etc/opt/rh/rh-php56/10-opcache.ini
-envsubst < /opt/app-root/etc/newrelic.ini.template > /opt/rh/php56/root/etc/php.d/newrelic.ini
+envsubst < /opt/app-root/etc/newrelic.ini.template > /opt/rh/rh-php56/root/etc/php.d/newrelic.ini
 
 export HTTPD_START_SERVERS=${HTTPD_START_SERVERS:-8}
 export HTTPD_MAX_SPARE_SERVERS=$((HTTPD_START_SERVERS+10))
@@ -46,6 +46,8 @@ fi
 envsubst < /opt/app-root/etc/conf.d/50-mpm-tuning.conf.template > /opt/app-root/etc/conf.d/50-mpm-tuning.conf
 
 MSCONFIG=/opt/rh/httpd24/root/etc/httpd/conf.d/multisite.conf
+
+export ENABLE_MULTISITE=${ENABLE_MULTISITE:-false}
 
 if [ $ENABLE_MULTISITE == "true" ]; then
   echo "Enabling Multisite Module!"
