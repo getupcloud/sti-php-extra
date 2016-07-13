@@ -17,7 +17,7 @@ RUN chmod -R a+rwx /opt/rh/httpd24/root/etc/httpd/conf.d
 RUN chown -R 1001:0 /opt/app-root /tmp/sessions && \
     chmod -R a+rwx /tmp/sessions && \
     chmod -R ug+rwx /opt/app-root && \
-#    chmod -R a+rwx /opt/rh/php56/root/etc && \
+    chmod -R a+rwx /etc/opt/rh/rh-php56/php.d && \
     chmod -R a+rwx /opt/rh/httpd24/root/etc/httpd/conf.d && \
     chmod -R a+rwx /opt/rh/httpd24/root/var/run/httpd
 
