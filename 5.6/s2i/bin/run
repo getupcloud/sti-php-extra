@@ -45,4 +45,16 @@ fi
 
 envsubst < /opt/app-root/etc/conf.d/50-mpm-tuning.conf.template > /opt/app-root/etc/conf.d/50-mpm-tuning.conf
 
+MSCONFIG=/opt/rh/httpd24/root/etc/httpd/conf.d/multisite.conf
+
+if [ $ENABLE_MULTISITE == "true" ]; then
+  echo "Enabling Multisite Module!"
+  echo '<IfModule mod_vhost_alias.c>
+    UseCanonicalName Off
+    VirtualDocumentRoot /opt/app-root/src/%0
+    </IfModule>' > $MSCONFIG
+else
+  > $MSCONFIG
+fi
+
 exec httpd -D FOREGROUND
