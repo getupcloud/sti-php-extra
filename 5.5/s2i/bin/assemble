@@ -28,4 +28,6 @@ fi
 # Fix source directory permissions
 fix-permissions ./
 
-fix-permissions /tmp/.newrelic.sock
+if [ -f /tmp/.newrelic.sock ]; then
+  fix-permissions /tmp/.newrelic.sock
+fi
