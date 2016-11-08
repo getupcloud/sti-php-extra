@@ -12,23 +12,22 @@ RUN yum install -y centos-release-scl-rh && \
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum install -y http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && NR_INSTALL_SILENT=1 newrelic-install install && \
-    yum clean all -y
+    yum clean all -y && \
+    cd /opt/rh/httpd24/root && \
+    curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm
 
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 COPY ./contrib/ /opt/app-root
+COPY ./contrib/etc/pagespeed.conf /opt/rh/httpd24/root/etc/httpd/conf.d/
 
 RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && mkdir -p /opt/rh/httpd24/root/var/run/httpd
 
-# Getup bits
-RUN chmod -R a+rwx /opt/rh/httpd24/root/etc/httpd/conf.d
-
-RUN chown -R 1001:0 /opt/app-root /tmp/sessions && \
+RUN chmod -R a+rwx /opt/rh/httpd24/root/etc/httpd/conf.d && \
+    chown -R 1001:0 /opt/app-root /tmp/sessions && \
     chmod -R a+rwx /tmp/sessions && \
     chmod -R ug+rwx /opt/app-root && \
     chmod -R a+rwx /etc/opt/rh/rh-php56/php.d && \
     chmod -R a+rwx /opt/rh/httpd24/root/etc/httpd/conf.d && \
     chmod -R a+rwx /opt/rh/httpd24/root/var/run/httpd
-
-COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 
 USER 1001
