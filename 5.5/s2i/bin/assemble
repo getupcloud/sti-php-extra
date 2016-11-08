@@ -25,11 +25,5 @@ if [ -f composer.json ]; then
   fi
 fi
 
-PSPEEDCONFIG=/opt/rh/httpd24/root/etc/httpd/conf.d/pagespeed.conf
-
-if [ -d ./pagespeed ]; then
-  cp -a ./pagespeed/pagespeed.conf "${PSPEEDCONFIG}"
-fi
-
 # Fix source directory permissions
 fix-permissions ./
