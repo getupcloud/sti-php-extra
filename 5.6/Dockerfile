@@ -6,21 +6,17 @@ ENV NPM_CONFIG_PREFIX=$HOME/.npm-global \
     PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:$PATH:/usr/local/bin/ffmpeg/
 
 RUN yum install -y centos-release-scl-rh && \
-    INSTALL_PKGS="glibc-common more-php56-php-pecl-redis more-php56-php-mcrypt newrelic-php5 rh-nodejs4 rh-nodejs4-npm rh-nodejs4-nodejs-nodemon nss_wrapper" && \
+    INSTALL_PKGS="glibc-common more-php56-php-pecl-redis more-php56-php-mcrypt newrelic-php5 rh-nodejs4 rh-nodejs4-npm rh-nodejs4-nodejs-nodemon nss_wrapper sclo-php56-php-pecl-imagick" && \
     ln -s /usr/lib/node_modules/nodemon/bin/nodemon.js /usr/bin/nodemon && \
     yum install -y https://www.softwarecollections.org/en/scls/remi/php56more/epel-7-x86_64/download/remi-php56more-epel-7-x86_64.noarch.rpm && \
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum install -y http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && NR_INSTALL_SILENT=1 newrelic-install install && \
-    yum install -y rh-php56-php-devel ImageMagick ImageMagick-devel ImageMagick-perl && \
-    pecl install -f Imagick && echo -e "\nextension=imagick.so" >> /etc/opt/rh/rh-php56/php.ini && \
     yum clean all -y && \
     cd /opt/rh/httpd24/root && \
     curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm && rm -f /opt/rh/httpd24/root/etc/httpd/conf.d/pagespeed.conf
 
     #====================================================================
-    #ImageMagick
-    #/opt/rh/rh-php56/root/usr/bin/pecl install -f Imagick && echo -e "\nextension=imagick.so" >> /etc/opt/rh/rh-php56/php.ini 
     # ffmpeg
     ENV FFMPEG_VERSION 3.0
     ENV SRC /usr/local
@@ -50,7 +46,6 @@ RUN chmod -R a+rwx  /opt/rh/httpd24/root/etc/httpd/conf.d && \
     chmod -R ug+rwx /opt/app-root && \
     chmod -R a+rwx  /etc/opt/rh/rh-php56/php.d && \
     chmod -R a+rwx  /opt/rh/httpd24/root/etc/httpd/conf.d && \
-    chmod -R a+rwx  /opt/rh/httpd24/root/var/run/httpd && \
-    chown -R 1001:0 /usr/local/bin/ffmpeg
+    chmod -R a+rwx  /opt/rh/httpd24/root/var/run/httpd 
 
 USER 1001
