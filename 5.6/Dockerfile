@@ -16,7 +16,7 @@ RUN yum install -y centos-release-scl-rh && \
     cd /opt/rh/httpd24/root && \
     curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm && rm -f /opt/rh/httpd24/root/etc/httpd/conf.d/pagespeed.conf
 
-    #====================================================================
+#====================================================================
     # ffmpeg
     ENV FFMPEG_VERSION 3.0
     ENV SRC /usr/local
@@ -32,7 +32,9 @@ RUN yum install -y centos-release-scl-rh && \
                   make distclean && \
                   hash -r && \
                   rm -rf ${DIR}
-    #====================================================================
+#====================================================================
+#PhantomJS 2.1.1
+RUN wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 && tar -xjf phantomjs-2.1.1-linux-x86_64.tar.bz2 -C /usr/local/bin/ && mv /usr/local/bin/phantomjs-2.1.1-linux-x86_64 /usr/local/bin/phantomjs && rm -f phantomjs-2.1.1-linux-x86_64.tar.bz2 
 
 
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
