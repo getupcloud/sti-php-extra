@@ -6,8 +6,7 @@ ENV NPM_CONFIG_PREFIX=$HOME/.npm-global \
     PATH=$HOME/node_modules/.bin/:$HOME/.npm-global/bin/:$PATH:/usr/local/bin/ffmpeg/
 
 RUN yum install -y centos-release-scl-rh && \
-    INSTALL_PKGS="glibc-common more-php56-php-pecl-redis more-php56-php-mcrypt newrelic-php5 rh-nodejs4 rh-nodejs4-npm rh-nodejs4-nodejs-nodemon nss_wrapper sclo-php56-php-pecl-imagick" && \
-    ln -s /usr/lib/node_modules/nodemon/bin/nodemon.js /usr/bin/nodemon && \
+    INSTALL_PKGS="glibc-common more-php56-php-pecl-redis more-php56-php-mcrypt newrelic-php5 nss_wrapper sclo-php56-php-pecl-imagick" && \
     yum install -y https://www.softwarecollections.org/en/scls/remi/php56more/epel-7-x86_64/download/remi-php56more-epel-7-x86_64.noarch.rpm && \
     yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum install -y http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm && \
@@ -15,6 +14,14 @@ RUN yum install -y centos-release-scl-rh && \
     yum clean all -y && \
     cd /opt/rh/httpd24/root && \
     curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm && rm -f /opt/rh/httpd24/root/etc/httpd/conf.d/pagespeed.conf
+
+ENV NODE_VERSION=8.4.0 \
+    ARCH=x64
+
+RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.xz" && \
+    tar -xJf "node-v$NODE_VERSION-linux-$ARCH.tar.xz" -C /usr/local --strip-components=1 && \
+    ln -s /usr/local/bin/node /usr/local/bin/nodejs && \
+    npm install -g nodemon
 
 #====================================================================
     # ffmpeg
