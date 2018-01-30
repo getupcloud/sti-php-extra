@@ -15,6 +15,8 @@ RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && mkdir -p /opt/rh/httpd24/root/v
 # Getup bits
 RUN chmod -R a+rwx /opt/rh/httpd24/root/etc/httpd/conf.d
 
+RUN sed -i '349iTraceEnable off' /opt/rh/httpd24/root/etc/httpd/conf/httpd.conf
+
 RUN chown -R 1001:0 /opt/app-root /tmp/sessions && \
     chmod -R a+rwx /tmp/sessions && \
     chmod -R ug+rwx /opt/app-root && \
