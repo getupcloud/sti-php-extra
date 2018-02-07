@@ -9,7 +9,7 @@ RUN yum update -y && \
     INSTALL_PKGS="npm nodejs gcc-c++ make \
         http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm \
         https://li.nux.ro/download/nux/dextop/el7/x86_64//phantomjs-2.1.1-1.el7.nux.x86_64.rpm" && \
-    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS $EXTRA_INSTALL_PKGS && \
     yum clean all -y && \
     pecl install imagick && \
     pecl clear-cache && \
@@ -34,5 +34,9 @@ RUN echo Install ffmpeg && \
 
 RUN curl -Ls https://github.com/ariya/phantomjs/releases/download/2.1.3/phantomjs > /usr/local/bin/phantomjs && \
     chmod +x /usr/local/bin/phantomjs
+
+COPY contrib/ /opt/app-root/
+
+COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 
 USER 1001
