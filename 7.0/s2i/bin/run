@@ -5,10 +5,10 @@ export ZEND_ASSERTIONS=${ZEND_ASSERTIONS:--1} # http://php.net/zend.assertions
 export ASSERT_ACTIVE=${ASSERT_ACTIVE:-On} # http://php.net/assert.exception
 
 for template in /opt/app-root/etc/php.d/*.template; do
-    envsubst < ${template} > $PHP_INI_SCAN_DIR/$(basename ${template} .template)
+    envsubst < ${template} > ${PHP_SYSCONF_PATH}/php.d/$(basename ${template} .template)
 done
 for template in /opt/app-root/etc/conf.d/*.template; do
-    envsubst < ${template} > /opt/app-root/etc/conf.d/$(basename ${template} .template)
+    envsubst < ${template} > ${PHP_SYSCONF_PATH}/conf.d/$(basename ${template} .template)
 done
 
 exec $STI_SCRIPTS_PATH/run
