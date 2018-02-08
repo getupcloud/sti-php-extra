@@ -6,11 +6,11 @@ USER root
 
 RUN yum update -y && \
     curl -s https://rpm.nodesource.com/setup_9.x | bash - && \
-    INSTALL_PKGS="npm nodejs gcc-c++ make \
+    INSTALL_PKGS="rh-php70-php-devel npm nodejs gcc-c++ make \
         https://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS $EXTRA_INSTALL_PKGS && \
     yum clean all -y && \
-    pecl install imagick && \
+    pecl install --onlyreqdeps imagick && \
     pecl clear-cache && \
     ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) && \
     rm -rf /opt/rh/httpd24/root/var/run/httpd && \
