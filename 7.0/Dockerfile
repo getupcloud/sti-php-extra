@@ -13,8 +13,7 @@ RUN yum update -y && \
     yum clean all -y && \
     pecl install imagick && \
     pecl clear-cache && \
-    ( cd /opt/rh/httpd24/root && \
-    curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) && \
+    ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) && \
     rm -rf /opt/rh/httpd24/root/var/run/httpd && \
     mkdir -p /opt/rh/httpd24/root/var/run/httpd && \
     chmod -R a+rwx  /opt/rh/httpd24/root/var/run/httpd
@@ -34,6 +33,8 @@ RUN echo Install ffmpeg && \
 
 RUN curl -Ls https://github.com/ariya/phantomjs/releases/download/2.1.3/phantomjs > /usr/local/bin/phantomjs && \
     chmod +x /usr/local/bin/phantomjs
+
+RUN mv $STI_SCRIPTS_PATH/run $STI_SCRIPTS_PATH/run.base
 
 COPY contrib/ /opt/app-root/
 
