@@ -4,7 +4,7 @@ MAINTAINER Mateus Caruccio <mateus.caruccio@getupcloud.com>
 
 USER root
 
-RUN yum update -y
+RUN yum update -y && yum clean all -y
 
 ENV FFMPEG_VERSION 3.4.1
 
