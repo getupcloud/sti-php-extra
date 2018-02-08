@@ -10,7 +10,8 @@ RUN yum update -y && \
         https://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS $EXTRA_INSTALL_PKGS && \
     yum clean all -y && \
-    pecl install --onlyreqdeps imagick && \
+    INSTALL_PECL="igbinary memcache mongodb redis scrypt uuid xdebug pgsql imagick" && \
+    pecl install --onlyreqdeps $INSTALL_PECL && \
     pecl clear-cache && \
     ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) && \
     rm -rf /opt/rh/httpd24/root/var/run/httpd && \
