@@ -23,7 +23,6 @@ RUN curl -Ls https://github.com/ariya/phantomjs/releases/download/2.1.3/phantomj
     chmod +x /usr/local/bin/phantomjs
 
 RUN curl -s https://rpm.nodesource.com/setup_9.x | bash - && \
-    npm install gulp -g && \
     INSTALL_PKGS="rh-php70-php-devel npm nodejs gcc-c++ make ImageMagick ImageMagick-devel \
         https://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS $EXTRA_INSTALL_PKGS && \
@@ -32,7 +31,9 @@ RUN curl -s https://rpm.nodesource.com/setup_9.x | bash - && \
     pecl install --onlyreqdeps $INSTALL_PECL && \
     pecl clear-cache && \
     ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) && \
-    rm -rf /opt/rh/httpd24/root/var/run/httpd && \
+    npm install gulp -g
+
+RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
     mkdir -p /opt/rh/httpd24/root/var/run/httpd && \
     chmod -R a+rwx  /opt/rh/httpd24/root/var/run/httpd
 
