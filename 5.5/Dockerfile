@@ -9,17 +9,14 @@ RUN yum clean all -y && \
     yum clean all -y
 
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
-COPY ./contrib/newrelic.ini.template /opt/app-root/etc/
+COPY ./contrib/ /opt/app-root/
 
-RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && mkdir -p /opt/rh/httpd24/root/var/run/httpd
-
-RUN chown -R 1001:0 /opt/app-root /tmp/sessions && \
+RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && mkdir -p /opt/rh/httpd24/root/var/run/httpd && \
+    chown -R 1001:0 /opt/app-root /tmp/sessions && \
     chmod -R a+rwx /tmp/sessions && \
     chmod -R ug+rwx /opt/app-root && \
     chmod -R a+rwx /opt/rh/php55/root/etc && \
     chmod -R a+rwx /opt/rh/httpd24/root/etc/httpd/conf.d && \
     chmod -R a+rwx /opt/rh/httpd24/root/var/run/httpd
-
-COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 
 USER 1001
