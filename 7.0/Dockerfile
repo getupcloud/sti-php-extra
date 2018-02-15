@@ -31,7 +31,8 @@ RUN curl -s https://rpm.nodesource.com/setup_9.x | bash - && \
     pecl install --onlyreqdeps $INSTALL_PECL && \
     pecl clear-cache && \
     ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) && \
-    npm install gulp -g
+    npm install gulp -g && \
+    npm install --save-dev gulp
 
 RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
     mkdir -p /opt/rh/httpd24/root/var/run/httpd && \
