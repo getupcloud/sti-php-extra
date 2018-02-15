@@ -6,7 +6,7 @@ USER root
 
 ENV EXTRA_REPOS="http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm" \
-    INSTALL_PKGS="nodejs glibc-common newrelic-php5 sclo-php70-php-*" \
+    INSTALL_PKGS="glibc-common rh-php70-php-devel newrelic-php5 sclo-php70-php-* nodejs" \
     REMOVE_PKGS="rh-nodejs6-*" \
     FFMPEG_VERSION="3.4.1" \
     FFMPEG_PREFIX="/usr/local"
