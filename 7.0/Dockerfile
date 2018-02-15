@@ -45,7 +45,6 @@ RUN INSTALL_PECL="scrypt uuid xdebug pgsql" && \
 # nodejs
 RUN npm install gulp -g
 
-COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 COPY ./contrib/ /opt/app-root/
 
 # TODO: Review - We may not need it since there is support for user defined config from s2i
