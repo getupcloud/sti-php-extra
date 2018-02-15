@@ -6,9 +6,10 @@ USER root
 
 ENV EXTRA_REPOS="http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm" \
-    INSTALL_PKGS="glibc-common newrelic-php5 sclo-php56-php-pecl-*" \
+    INSTALL_PKGS="nodejs glibc-common newrelic-php5 sclo-php56-php-pecl-*" \
     REMOVE_PKGS="" \
-    FFMPEG_VERSION="3.4.1"
+    FFMPEG_VERSION="3.4.1" \
+    FFMPEG_PREFIX="/usr/local"
 
 # RPM repos & packages
 RUN curl -s https://rpm.nodesource.com/setup_9.x | bash - && \
@@ -22,12 +23,10 @@ RUN curl -s https://rpm.nodesource.com/setup_9.x | bash - && \
 RUN NR_INSTALL_SILENT=1 newrelic-install install
 
 # ffmpeg
-RUN echo Install ffmpeg && \
-    export PREFIX=/usr/local && \
-    mkdir -p /tmp/ffmpeg && cd /tmp/ffmpeg && \
+RUN mkdir -p /tmp/ffmpeg && cd /tmp/ffmpeg && \
     curl -s http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz | tar xzvf - && \
     cd ffmpeg-${FFMPEG_VERSION} && \
-    ./configure --prefix="${PREFIX}" --extra-cflags="-I${PREFIX}/include" --extra-ldflags="-L${PREFIX}/lib" --bindir="${PREFIX}/bin" \
+    ./configure --prefix="${FFMPEG_PREFIX}" --extra-cflags="-I${FFMPEG_PREFIX}/include" --extra-ldflags="-L${FFMPEG_PREFIX}/lib" --bindir="${FFMPEG_PREFIX}/bin" \
         --extra-libs=-ldl --enable-version3 --enable-gpl \
         --enable-postproc --enable-nonfree --enable-avresample --disable-debug --enable-small --disable-yasm && \
     make install && \
@@ -49,7 +48,7 @@ RUN npm install gulp -g
 COPY ./s2i/bin/ $STI_SCRIPTS_PATH
 COPY ./contrib/ /opt/app-root/
 
-# Review this. We may not need it sinc there is support for user defined config from s2i
+# TODO: Review - We may not need it sinc there is support for user defined config from s2i
 RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
     mkdir -p /opt/rh/httpd24/root/var/run/httpd && \
     chown -R 1001:0 /opt/app-root /tmp/sessions && \
