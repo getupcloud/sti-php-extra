@@ -37,7 +37,7 @@ RUN curl -Ls https://github.com/ariya/phantomjs/releases/download/2.1.3/phantomj
     chmod +x /usr/local/bin/phantomjs
 
 # pecl
-RUN INSTALL_PECL="scrypt uuid xdebug pgsql" && \
+RUN INSTALL_PECL="scrypt pgsql" && \
     pecl install --onlyreqdeps $INSTALL_PECL && \
     pecl clear-cache && \
     ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm )
