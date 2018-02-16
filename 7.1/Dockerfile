@@ -32,9 +32,9 @@ RUN mkdir -p /tmp/ffmpeg && cd /tmp/ffmpeg && \
     make install && \
     rm -rf /tmp/ffmpeg
 
-# phantonjs
-RUN curl -Ls https://github.com/ariya/phantomjs/releases/download/2.1.3/phantomjs > /usr/local/bin/phantomjs && \
-    chmod +x /usr/local/bin/phantomjs
+# phantomjs
+RUN yum install -y https://harbottle.gitlab.io/harbottle-main/7/x86_64/00566392-phantomjs/phantomjs-2.1.1-2.el7.x86_64.rpm && \
+    yum clean all -y
 
 # pecl
 RUN INSTALL_PECL="scrypt pgsql" && \
@@ -43,7 +43,7 @@ RUN INSTALL_PECL="scrypt pgsql" && \
     ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm )
 
 # nodejs
-RUN npm install gulp -g
+RUN npm install gulp -g --save-dev
 
 COPY ./contrib/ /opt/app-root/
 
