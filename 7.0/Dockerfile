@@ -43,7 +43,8 @@ RUN INSTALL_PECL="scrypt pgsql" && \
     ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm )
 
 # nodejs
-RUN npm install gulp -g --save-dev
+RUN npm install gulp -g --save-dev && \
+    chmod -R a+rwx /usr/lib/node_modules/
 
 COPY ./contrib/ /opt/app-root/
 
