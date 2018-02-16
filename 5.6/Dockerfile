@@ -59,3 +59,5 @@ RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
         /tmp/sessions
 
 USER 1001
+
+RUN npm link gulp --no-bin-links

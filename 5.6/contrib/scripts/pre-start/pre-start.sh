@@ -7,5 +7,3 @@ export ASSERT_ACTIVE=${ASSERT_ACTIVE:-On} # http://php.net/assert.exception
 for template in /opt/app-root/etc/php.d/*.template; do
     envsubst < ${template} > $PHP_INI_SCAN_DIR/$(basename ${template} .template)
 done
-
-npm link gulp --no-bin-links
