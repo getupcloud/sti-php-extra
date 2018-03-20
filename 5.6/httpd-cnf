@@ -1,4 +1,0 @@
-<IfModule mod_vhost_alias.c>
-    UseCanonicalName Off
-    VirtualDocumentRoot /opt/app-root/src/%0
-</IfModule>
