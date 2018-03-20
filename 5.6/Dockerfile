@@ -47,6 +47,7 @@ RUN npm install gulp -g --save-dev && \
     chmod -R a+rwx /usr/lib/node_modules/
 
 COPY ./contrib/ /opt/app-root/
+COPY ./httpd-cnf/ ${PHP_CONTAINER_SCRIPTS_PATH}/httpd-cnf/
 
 # TODO: Review - We may not need it sinc there is support for user defined config from s2i
 RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
