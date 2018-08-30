@@ -13,8 +13,7 @@ RUN yum install -y centos-release-scl-rh && \
     yum install -y http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && NR_INSTALL_SILENT=1 newrelic-install install && \
     yum clean all -y && \
-    cd /opt/rh/httpd24/root && \
-    curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm && rm -f /opt/rh/httpd24/root/etc/httpd/conf.d/pagespeed.conf
+    cd /opt/rh/httpd24/root && rm -f /opt/rh/httpd24/root/etc/httpd/conf.d/pagespeed.conf
 
 #====================================================================
     # ffmpeg
