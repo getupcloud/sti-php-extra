@@ -40,7 +40,8 @@ RUN yum install -y https://harbottle.gitlab.io/harbottle-main/7/x86_64/00566392-
 RUN INSTALL_PECL="scrypt xdebug pgsql" && \
     pecl install --onlyreqdeps $INSTALL_PECL && \
     pecl clear-cache && \
-    ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm )
+    ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) && \
+    mkdir /var/cache/mod_pagespeed 
 
 # nodejs
 RUN npm install gulp -g --save-dev && \
@@ -56,7 +57,8 @@ RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
     chmod -R a+rwx \
         /opt/rh/httpd24/root/etc/httpd/conf.d \
         /opt/rh/httpd24/root/var/run/httpd \
-        /tmp/sessions
+        /tmp/sessions \
+        /var/cache/mod_pagespeed
 
 USER 1001
 
