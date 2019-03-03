@@ -57,7 +57,7 @@ RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
         /opt/rh/httpd24/root/etc/httpd/conf.d \
         /opt/rh/httpd24/root/var/run/httpd \
         /tmp/sessions \
-        /var/cache/mod_pagespeed
+        /var/cache/
 
 USER 1001
 
