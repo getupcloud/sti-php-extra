@@ -33,15 +33,14 @@ RUN mkdir -p /tmp/ffmpeg && cd /tmp/ffmpeg && \
     rm -rf /tmp/ffmpeg
 
 # phantomjs
-RUN yum install -y https://harbottle.gitlab.io/harbottle-main/7/x86_64/00566392-phantomjs/phantomjs-2.1.1-2.el7.x86_64.rpm && \
+RUN yum install -y https://harbottle.gitlab.io/harbottle-main/7/x86_64/00850954-phantomjs/phantomjs-2.1.1-3.el7.harbottle.x86_64.rpm  && \
     yum clean all -y
 
 # pecl
 RUN INSTALL_PECL="scrypt xdebug pgsql" && \
     pecl install --onlyreqdeps $INSTALL_PECL && \
     pecl clear-cache && \
-    ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) && \
-    mkdir /var/cache/mod_pagespeed 
+    ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) 
 
 # nodejs
 RUN npm install gulp -g --save-dev && \
