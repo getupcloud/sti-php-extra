@@ -52,6 +52,7 @@ COPY ./contrib/ /opt/app-root/
 RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
     mkdir -p /opt/rh/httpd24/root/var/run/httpd && \
     chown -R 1001:0 /opt/app-root /tmp/sessions /var/cache/mod_pagespeed && \
+    chmod -R 777 /var/cache/mod_pagespeed && \
     chmod -R ug+rwx /opt/app-root && \
     chmod -R a+rwx \
         /opt/rh/httpd24/root/etc/httpd/conf.d \
