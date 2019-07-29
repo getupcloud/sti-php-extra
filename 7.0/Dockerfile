@@ -9,7 +9,8 @@ ENV EXTRA_REPOS="http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5
     INSTALL_PKGS="glibc-common rh-php70-php-devel newrelic-php5 sclo-php70-php-* rh-php70-php-mcrypt nodejs" \
     REMOVE_PKGS="rh-nodejs6-*" \
     FFMPEG_VERSION="3.4.1" \
-    FFMPEG_PREFIX="/usr/local"
+    FFMPEG_PREFIX="/usr/local" \
+    PHANTOMJS_URL="https://copr-be.cloud.fedoraproject.org/results/harbottle/main/epel-7-x86_64/00850954-phantomjs/phantomjs-2.1.1-3.el7.harbottle.x86_64.rpm"
 
 # RPM repos & packages
 RUN curl -s https://rpm.nodesource.com/setup_9.x | bash - && \
@@ -33,7 +34,7 @@ RUN mkdir -p /tmp/ffmpeg && cd /tmp/ffmpeg && \
     rm -rf /tmp/ffmpeg
 
 # phantomjs
-RUN yum install -y https://harbottle.gitlab.io/harbottle-main/7/x86_64/00566392-phantomjs/phantomjs-2.1.1-2.el7.x86_64.rpm && \
+RUN yum install -y $PHANTOMJS_URL && \
     yum clean all -y
 
 # pecl
