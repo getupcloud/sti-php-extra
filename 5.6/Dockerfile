@@ -2,23 +2,30 @@ FROM centos/php-56-centos7:latest
 
 MAINTAINER Mateus Caruccio <mateus.caruccio@getupcloud.com>
 
+SHELL ["/bin/bash", "-c"]
+
 USER root
 
-ENV EXTRA_REPOS="http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm \
-        https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm" \
-    INSTALL_PKGS="glibc-common rh-php56-php-devel newrelic-php5 sclo-php56-php-pecl-* rh-php56-php-mcrypt nodejs" \
-    REMOVE_PKGS="" \
+ENV EXTRA_REPOS="epel-release http://yum.newrelic.com/pub/newrelic/el5/x86_64/newrelic-repo-5-3.noarch.rpm" \
+    INSTALL_PKGS="glibc-common rh-php56-* sclo-php56-* rh-nodejs10-* newrelic-php5" \
+    ENABLE_REPOS="centos-sclo-sclo-testing centos-sclo-rh-testing epel-release" \
+    REMOVE_PKGS="rh-nodejs6-* sclo-nodejs6*" \
     FFMPEG_VERSION="3.4.1" \
     FFMPEG_PREFIX="/usr/local" \
-    PHANTOMJS_URL="https://copr-be.cloud.fedoraproject.org/results/harbottle/main/epel-7-x86_64/00850954-phantomjs/phantomjs-2.1.1-3.el7.harbottle.x86_64.rpm"
+    PHANTOMJS_URL="https://copr-be.cloud.fedoraproject.org/results/harbottle/main/epel-7-x86_64/00850954-phantomjs/phantomjs-2.1.1-3.el7.harbottle.x86_64.rpm" \
+    INSTALL_PECL="scrypt pgsql"
 
 # RPM repos & packages
-RUN curl -s https://rpm.nodesource.com/setup_9.x | bash - && \
-    yum install -y ${EXTRA_REPOS} && \
+RUN yum install -y ${EXTRA_REPOS} && \
+    for repo in "$ENABLE_REPOS"; do yum-config-manager --enable $repo; done && \
     ( [ -z "$REMOVE_PKGS" ] || yum remove -y ${REMOVE_PKGS} ) && \
     yum update -y && \
-    yum install -y --setopt=tsflags=nodocs ${INSTALL_PKGS} && \
-    yum clean all -y
+    yum clean all -y && rm -rf /var/cache/yum
+
+RUN yum install -y --setopt=tsflags=nodocs ${INSTALL_PKGS} && \
+    yum clean all -y && rm -rf /var/cache/yum
+
+COPY ./contrib/ /opt/app-root/
 
 # NewRelic
 RUN NR_INSTALL_SILENT=1 newrelic-install install
@@ -35,21 +42,18 @@ RUN mkdir -p /tmp/ffmpeg && cd /tmp/ffmpeg && \
 
 # phantomjs
 RUN yum install -y $PHANTOMJS_URL && \
-    yum clean all -y
+    yum clean all -y && rm -rf /var/cache/yum
 
 # pecl
-RUN INSTALL_PECL="scrypt xdebug pgsql" && \
-    pecl install --onlyreqdeps $INSTALL_PECL && \
+RUN pecl install --onlyreqdeps $INSTALL_PECL && \
     pecl clear-cache && \
-    ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm ) 
+    ( cd / && curl https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_x86_64.rpm | rpm2cpio | cpio -idvm )
 
 # nodejs
 RUN npm install gulp -g --save-dev && \
-    chmod -R a+rwx /usr/lib/node_modules/
+    chmod -R a+rwx $(npm root -g)
 
-COPY ./contrib/ /opt/app-root/
-
-# TODO: Review - We may not need it sinc there is support for user defined config from s2i
+# TODO: Review - We may not need it since there is support for user defined config from s2i
 RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
     mkdir -p /opt/rh/httpd24/root/var/run/httpd && \
     chown -R 1001:0 /opt/app-root /tmp/sessions /var/cache/mod_pagespeed && \
@@ -60,6 +64,8 @@ RUN rm -rf /opt/rh/httpd24/root/var/run/httpd && \
         /opt/rh/httpd24/root/var/run/httpd \
         /tmp/sessions \
         /var/cache/
+
+RUN sed -i 's/memory_limit\s.*/memory_limit = -1/g'  $PHP_SYSCONF_PATH/php.ini
 
 USER 1001
 
